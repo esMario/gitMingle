@@ -1,3 +1,4 @@
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -17,6 +18,19 @@
     
 }
 
+a {
+	-webkit-transition: all 150ms ease;
+	-moz-transition: all 150ms ease;
+	-ms-transition: all 150ms ease;
+	-o-transition: all 150ms ease;
+	transition: all 150ms ease; 
+	}
+    a:hover {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 8 */
+        filter: alpha(opacity=50); /* IE7 */
+        opacity: 0.6;
+        text-decoration: none;
+    }
 
 header{
     background: radial-gradient(circle at 0%, var(--background) 0%, var(--secondary) 100%);
@@ -284,3 +298,6 @@ form, form label, form input {
     width: 100%;
 }
 
+ /* CAROUSEL ON HUB */
+
+ 

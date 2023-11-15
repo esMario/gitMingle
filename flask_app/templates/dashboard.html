@@ -58,132 +58,91 @@
 
             <!-- *************SEARCH BY PROJECT LANGUAGES USED -->
             <!-- <div class="w-25 d-flex flex-column px-3 pb-5">
-                
-                <form class="language_search w-100" action="/projects/language_search" method='post'>
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="search_label w-50 form-label" for='langs_used'>Search by Programming Language:
-                        <input class="w-75 form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type='text' style="font-size: 1em; font-weight: bold;" name='langs_used'></label>
-                        <input class="btn btn-dark my-2 ms-2" style="font-size: .8em;" type='submit' value='SEARCH'>
-                    </div>
-                </form>
 
+                    <form class="language_search w-100" action="/projects/language_search" method='post'>
+                        <div class="w-100 d-flex pb-1 align-items-center">
+                            <label class="search_label w-50 form-label" for='langs_used'>Search by Programming Language:
+                            <input class="w-75 form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type='text' style="font-size: 1em; font-weight: bold;" name='langs_used'></label>
+                            <input class="btn btn-dark my-2 ms-2" style="font-size: .8em;" type='submit' value='SEARCH'>
+                        </div>
+                    </form>
                 <img class="w-100" src="">
-        </div> -->
+                </div> -->
 
 
 
-        <p class="h2">All Current Projects:</p>
-        <div class="container d-flex flex-wrap justify-content-center ">
+            <p class="h2">All Current Projects:</p>
+            <div class="container d-flex flex-wrap justify-content-center ">
 
-            {% for project in all_projects %}
-            <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
-                    <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
-                        <p class="h4">{{project.project_name}}</p>
-                        <p>{{project.short_description}}</p>
-                    </div>
-                    {% if project.user_id == session['logged_in_id'] %}
-                    <div class="d-flex justify-content-around flex-row border border-top-none p-2 pt-0 w-100 border-top-0" >
-                        <a href="/projects/edit_project/{{project.id}}"> EDIT</a>  |  <a href="/projects/delete_project/{{project.id}}">DELETE </a>
-                    </div>
-                    {% endif %}
-                    <div class="w-100 card-footer d-flex flex-column">
-                        <h4 class="w-100 bg-warning d-flex justify-content-center m-0">
-                            <strong>Current Team: <span>{{project.current_team}}/{{project.max_team}}</span></strong>
-                        </h4>
-                    </div>
-                    <div class="d-flex flex-row justify-content-evenly align-items-center border rounded-bottom border-top-0 text-center p-2 pb-3" style="width: 240px">
-                        <a href="/projects/show_project/{{project.id}}" class="bshadow-sm btn btn-warning me-2">Show More</a>
-                        <a href="#" class="bshadow-sm btn btn-success">Join Now</a>
-                    </div>
+                {% for project in all_projects %}
+                <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
+                    <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                        <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
+                            <p class="h4">{{project.project_name}}</p>
+                            <p>{{project.short_description}}</p>
+                        </div>
+                        {% if project.user_id == session['logged_in_id'] %}
+                        <div class="d-flex justify-content-around flex-row border border-top-none p-2 pt-0 w-100 border-top-0" >
+                            <a href="/projects/edit_project/{{project.id}}"> EDIT</a>  |  <a href="/projects/delete_project/{{project.id}}">DELETE </a>
+                        </div>
+                        {% endif %}
+                        <div class="w-100 card-footer d-flex flex-column">
+                            <h4 class="w-100 bg-warning d-flex justify-content-center m-0">
+                                <strong>Current Team: <span>{{project.current_team}}/{{project.max_team}}</span></strong>
+                            </h4>
+                        </div>
+                        <div class="d-flex flex-row justify-content-evenly align-items-center border rounded-bottom border-top-0 text-center p-2 pb-3" style="width: 240px">
+                            <a href="/projects/show_project/{{project.id}}" class="bshadow-sm btn btn-warning me-2">Show More</a>
+                            <a href="#" class="bshadow-sm btn btn-success">Join Now</a>
+                        </div>
+
+                </div>
+                {% endfor %} 
 
             </div>
-            {% endfor %} 
-
-        </div>
 
 
             
-        <br><br>
+            <br><br>
 <!-- USERS LOOKING TO MINGLE - SHOW ALL USERS -->
 
             <p class="h4 text-center">Users Looking to Mingle</p>
             <div class="all_users_container w-100 h-100 bg-primary d-flex justify-content-start p-5 gap-2">
-                <!-- FULL STACK DEVS -->
+                {# <!-- Creates a varible to store all users titles for later. --> #}
+                {% set position_titles = [] %}
+                {# <!-- Starts a loop for all users / get all users. --> #}
+                {% for user in all_users %}
+                {# <!-- If users postion title is not in new variables list append it to provide all current titles from all users. --> #}
+                    {% if user.position_title not in position_titles %}
+                        {% set append_titles = position_titles.append(user.position_title) %}
+                    {% endif %}
+                {% endfor %}
+                {# <!-- Loop through new variable list per title provided . --> #}
+                {% for title in position_titles %}
                 <table class="w-25 table table-striped">
                     <thead>
-                        <th>FULL STACK DEVS</th>
+                        <th>{{ title }}</th>
                     </thead>
                     <tbody>
+                        {# <!-- If users position title matches the list of titles created add user.id and full name to the table row with its data . --> #}
                         {% for user in all_users %}
-                            {% if user.position_title == "Full Stack Developer" %}
+                        {% if user.position_title == title %}
                             <tr>
-                                <td><a href="/users/profile/{{user.id}}">+</a>{{user.f_name}} {{user.l_name}}</td>
+                                <td><a href="/users/profile/{{ user.id }}">+ {{ user.f_name }} {{ user.l_name }}</a></td>
                             </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                <!-- BACK-END DEVS -->
-                <table class="w-25 table table-striped">
-                    <thead>
-                        <th>BACK-END DEVS</th>
-                    </thead>
-                    <tbody>
-                        {% for user in all_users %}
-                            {% if user.position_title == "Back-end Developer" %}
-                            <tr>
-                                <td><a href="/users/profile/{{user.id}}">+</a>{{user.f_name}} {{user.l_name}}</td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                <!-- FRONT-END DEVS -->
-                <table class="w-25 table table-striped">
-                    <thead>
-                        <th>FRONT-END DEVS</th>
-                    </thead>
-                    <tbody>
-                        {% for user in all_users %}
-                            {% if user.position_title == "Front-end Developer" %}
-                            <tr>
-                                <td><a href="/users/profile/{{user.id}}">+</a>{{user.f_name}} {{user.l_name}}</td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-                <!-- UI/UX DESIGNERS -->
-                <table class="w-25 table table-striped">
-                    <thead>
-                        <th>UI/UX DESIGNERS</th>
-                    </thead>
-                    <tbody>
-                        {% for user in all_users %}
-                            {% if user.position_title == "UI/UX Designer" %}
-                            <tr>
-                                <td><a href="/users/profile/{{user.id}}">+</a>{{user.f_name}} {{user.l_name}}</td>
-                            </tr>
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-
+                        {% endif %}
+                    {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
                 <br>
             </div>
 
-        </div>
         <footer class="w-100 text-light" style="background-color: var(--accent);">
             Created by gitMingle Team: Jonathan, Mario & Veronica 2023
         </footer>
 
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
