@@ -41,6 +41,7 @@
             {% endif %}
         {% endwith %}
         
+<!-- ****************************** TOP BAR NAVIGATION ******************************** -->
         <header class="w-100 d-flex justify-content-between align-items-center">
             <div>
                 <a class="" href="/"><img class="icon p-1 ms-2" src="{{url_for('static', filename='/images/logo.png')}}" alt="gitMingle Logo"></a>
@@ -69,7 +70,7 @@
                 <img class="w-100" src="">
                 </div> -->
 
-
+<!-- SHOW ALL PROJECTS - WITH CURRENT TEAM -->
 
             <p class="h2">All Current Projects:</p>
             <div class="container d-flex flex-wrap justify-content-center ">
@@ -95,10 +96,8 @@
                             <a href="/projects/show_project/{{project.id}}" class="bshadow-sm btn btn-warning me-2">Show More</a>
                             <a href="#" class="bshadow-sm btn btn-success">Join Now</a>
                         </div>
-
                 </div>
                 {% endfor %} 
-
             </div>
 
 
@@ -112,7 +111,7 @@
                 {% set position_titles = [] %}
                 {# <!-- Starts a loop for all users / get all users. --> #}
                 {% for user in all_users %}
-                {# <!-- If users postion title is not in new variables list append it to provide all current titles from all users. --> #}
+                    {# <!-- If users postion title is not in new variables list append it to provide all current titles from all users. --> #}
                     {% if user.position_title not in position_titles %}
                         {% set append_titles = position_titles.append(user.position_title) %}
                     {% endif %}
@@ -137,7 +136,7 @@
                 {% endfor %}
                 <br>
             </div>
-
+        </div>
         <footer class="w-100 text-light" style="background-color: var(--accent);">
             Created by gitMingle Team: Jonathan, Mario & Veronica 2023
         </footer>

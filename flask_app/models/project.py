@@ -236,7 +236,6 @@ class Project:
             is_valid = False
 
 
-
         if len(data["long_description"]) <1:
             flash("Description cannot be left empty.", "project_update")
             is_valid = False

@@ -18,9 +18,11 @@
 
     
     <body class="page_container">
+
+<!-- *************************** TOP BAR NAVIGATION ***************************** -->
         <header class="w-100 d-flex justify-content-between align-items-center">
             <div>
-                <a class="" href="#"><img class="icon p-1 ms-2" src="{{url_for('static', filename='/images/logo.png')}}" alt="gitMingle Logo"></a>
+                <a class="" href="/"><img class="icon p-1 ms-2" src="{{url_for('static', filename='/images/logo.png')}}" alt="gitMingle Logo"></a>
             </div>
 
             <div class="d-flex flex-row justify-content-center align-items-center menu" style="width: 40%!important;">
@@ -31,68 +33,138 @@
             </div>
         </header>
 
-    <div class="main_container w-100 d-flex flex-column align-items-center justify-content-center px-5 py-3">
-        <div class="w-100 d-flex justify-content-between">
-            <div class="w-50 d-flex flex-column align-items-start">
-                <h4 class="form_header">Edit Project</h4>
+
+<!-- ***************************** EDIT PROJECT FORM ******************************* -->
+    <div class="main_container w-100 px-5 py-3">
+        <div class="w-100 d-flex ">
+            <div class="w-50 d-flex align-items-start">
+                <p class="h2">Start A New Project:</p>
             </div>
         </div>
-    </div>
-
-        <div class="add_project_container w-75 h-100  d-flex flex-column justify-content-start align-items-start">
-            {% with messages = get_flashed_messages(category_filter=["project_update"]) %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <p class="text-bg-danger"><strong>{{message}}</strong></p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-            <form class="w-100 h-100 d-flex flex-column justify-content-between" action="/projects/update_project" method="post">
-                <div class="w-100 d-flex flex-column">
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="project_name">Project Name: </label>
-                        <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="project_name" value="{{project_to_update.project_name}}">
+        <div class="d-flex flex-row w-100 justify-content-between">
+            <div class=" w-100 h-100  d-flex flex-column justify-content-start align-items-start">
+                {% with messages = get_flashed_messages(category_filter=["project_update"]) %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p class="text-bg-danger"><strong>{{message}}</strong></p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+<!-- *************************** LEFT HALF PROJECT FORM **************************** -->                
+                <form class="w-100 h-100 d-flex flex-column justify-content-between" action="/projects/list_project" method="post">
+                    <div class="w-100 d-flex flex-column">
+                        <div class="w-100 pb-1 align-items-center">
+                            <label class="form-label" for="project_name">Project Name: </label><br>
+                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="project_name">
+                        </div>
+                        <div class="w-100 pb-1 align-items-center">
+                            <label class="form-label" for="short_description">Brief Description (100 characters or less): </label>
+                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="short_description"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col pb-1">
+                                <label class="form-label" for="current_team">Current Team Size: </label>
+                                <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="current_team">
+                            </div>
+                            <div class="col pb-1"">
+                                <label class="form-label" for="max_team">Max Team Size: </label>
+                                <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="max_team">
+                            </div>
+                        </div>
+                        <div class="w-100 pb-1 align-items-center">
+                            <label class="form-label" for="github_link">GitHub Repo Link: </label>
+                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="github_link">
+                        </div>
+    
+                        <div class="w-100 pb-1 align-items-center">
+                            <label class="form-label" for="long_description">Full Description: </label>
+                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="long_description"></textarea>
+                        </div>
+    
+                        <div class="w-100 pb-1 align-items-center">
+                            <label class="form-label" for="help_needed">Help Needed: </label>
+                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="help_needed"></textarea>
+                        </div>
+    
+                        <input type="hidden" name="user_id" value="{{session['logged_in_id']}}">
+                        
                     </div>
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="short_description">Brief Description (100 characters or less): </label>
-                        <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="short_description"> {{project_to_update.short_description}}</textarea>
+            </div>
+<!-- *************************** RIGHT HALF PROJECT FORM **************************** --> 
+                    <div class="d-flex align-items-start flex-row w-100">
+                        <div class="d-flex flex-column h-50 w-100 align-items-center" > 
+                                <p class="h5" for="languages_used">Languages Used: </p>
+                                <div class="overflow-auto w-75 h-75">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="angularjs">
+                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="d-flex flex-column h-50 w-100 align-items-center" > 
+                            <p class="h5" for="languages_used">Languages Used: </p>
+                            <div class="overflow-auto h-75 w-75">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="angularjs">
+                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                </div>
+                            </div>
                     </div>
-
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="max_team">Max Team Size: </label>
-                        <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="max_team" value="{{project_to_update.max_team}}">
-                    </div>
-
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="current_team">Current Team Size: </label>
-                        <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="current_team" value="{{project_to_update.current_team}}">
-                    </div>
-
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="github_link">GitHub Repo Link: </label>
-                        <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="github_link" value="{{project_to_update.github_link}}">
-                    </div>
-
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="long_description">Full Description: </label>
-                        <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="long_description">{{project_to_update.long_description}}</textarea>
-                    </div>
-
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="help_needed">Help Needed: </label>
-                        <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="help_needed">{{project_to_update.help_needed}}</textarea>
-                    </div>
-
-                    <div class="w-100 d-flex pb-1 align-items-center">
-                        <label class="w-25 form-label" for="languages_used">Languages Used: </label>
-                        <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="languages_used" value="{{project_to_update.languages_used}}">
-                    </div>
-
-                    <input type="hidden" name="id" value="{{project_to_update.id}}">
-                    <input class="btn btn-dark mt-2" style="font-size: .8rem;" type="submit" value="SUBMIT">
                 </div>
-            </form>
         </div>
+<!-- *************************** SUBMIT PROJECT FORM **************************** -->         
+                    <div class="d-flex justify-content-end">
+                        <input class="btn text-light mt-2" style="background-color: var(--accent);" type="submit" value="Submit">
+                    </div>
+                </form>
     </div>
 
     <footer class="w-100 bg-primary text-light">
