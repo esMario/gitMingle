@@ -12,6 +12,9 @@
         <!-- BOOTSTRAP / AJAX ANIMATE LINK -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+        <!-- ICON PACKS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
         <!-- SCRIPT JS LINK -->
         <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}" defer></script>
     </head>
@@ -30,30 +33,89 @@
         </div>
     </header>
 
-    <div class="main_container w-100 d-flex  align-items-center justify-content-center px-5 pt-3">
+    <div class="main_container w-100 d-flex align-items-center justify-content-center px-3 pt-3">
 
-        <div class="show_project_container w-75 h-100  d-flex flex-column justify-content-start align-items-start">
-            <h1 class="w-100">{{project1.project_name}}</h1>
-            <h2> Brief Description: {{project1.short_description}} </h2>
-            <h2>Team Positions Filled:<span>{{project1.current_team}}/{{project1.max_team}}</span></h2>
-            <h2> Repo Link: <a href="{{project1.github_link}}"> {{project1.github_link}} </a></h2><br>
-            <h2> Full Description: {{project1.long_description}} </h2><br>
-            <h2> Project Languages Used: {{project1.languages_used}} </h2>
-            <h2> Need Help With: {{project1.help_needed}} </h2><br>
-            <p class="w-100">Listed by: <a href="/users/profile/{{project1.user_id}}">{{project1.project_creator.f_name}}</a> on {{project1.created_at}}</p>
-
-                {% if project1.user_id == session['logged_in_id'] %}
-                <div class="d-flex">
-                    <a class="btn btn-dark" style="font-size: .8rem;" href="/projects/edit_project/{{project1.id}}"> EDIT LISTING</a>
-                    <a class="btn btn-danger ms-3" style="font-size: .8rem;" href="/projects/delete_project/{{project1.id}}">DELETE </a>
+        <div class="show_project_container w-100 h-100 d-flex flex-column justify-content-start align-items-start">
+            <div class="d-flex flex-row border rounded p-3 ">
+                <img src="https://placehold.co/400x400" alt="project images">
+                <div class="d-flex flex-column justify-content-start align-items-center text-center ps-2">
+                    <h1 class="">{{project1.project_name}}</h1>
+                    <h2 class="border-dark border-bottom pb-2"> Brief Description: {{project1.short_description}} </h2>
+                    <div class="overflow-auto h-75 mw-25 ms-2">
+                        <h2> Full Description: {{project1.long_description}} </h2>
+                        <br>
+                    </div>
                 </div>
-                {% endif %}
-
-
-            <div class="w-100 d-flex justify-content-between align-items-center bg-light-subtle mt-5">
-                <a class="w-50 btn btn-dark me-2" href="/projects/favorites/{{project1.id}}">Save Project</a><br>
-                <a class="w-50 btn btn-dark ms-2" href="/projects/join_project/{{project1.id}}">Join Team</a><br>
             </div>
+
+            <div class="d-flex flex-column justify-content-between  text-center border rounded p-3 mt-2 w-100">
+                <div class="d-flex flex-row justify-content-between">
+                    <h2> Project Languages Used: </h2>
+                    <p class="mb-2 copy_indicate">Listed by: <a href="/users/profile/{{project1.user_id}}">{{project1.project_creator.f_name}}</a> on {{project1.created_at}}</p>
+                </div>
+                    <div class="d-flex flex-row align-items-center justify-content-between">
+                        <div>
+                            {% set languages = project1.languages_used.split(' ') %}
+                            {% for language in languages %}
+                            <i class="devicon-{{ language|lower }}-plain fs-1 btn btn-outline-dark p-2 m-1"></i>
+                            {# <!-- <p class="label">{{ language }}</p> --> #}
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            <a class="btn btn-outline-dark p-2 m-1" href="{{ project1.github_link }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                                </svg>
+                            </a>
+                            <a class="btn btn-outline-dark p-2 m-1" href="mailto:{{project1.project_creator.email}} ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"></path>
+                                </svg>
+                            </a>
+                            <button class="btn btn-outline-dark p-2 m-1" id="current_link_btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+                                    <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1.002 1.002 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4.018 4.018 0 0 1-.128-1.287z"/>
+                                    <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243L6.586 4.672z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="d-flex flex-row justify-content-between border rounded p-3 mt-2 w-100" >
+                <div class="d-flex flex-column col-4">
+                    <h2>Need Help With:</h2>
+                    <div class="overflow-auto">
+                        <p >{{project1.help_needed}}</p>
+                    </div>
+                    
+                </div>
+                
+                <div class="d-flex flex-column col-4">
+                    <h2>Team Positions Filled:<span>{{project1.current_team}}/{{project1.max_team}}</span></h2>
+                    <!-- <p class="overflow-auto ">{{project1.help_needed}}</p> -->
+                </div>
+                
+                <div class="d-flex flex-column col-3">
+                    {% if project1.user_id == session['logged_in_id'] %}
+                        <a class="btn btn-danger m-2 bshadow-sm"  href="/projects/delete_project/{{project1.id}}"> DELETE </a>
+                        <a class="btn btn-warning m-2 bshadow-sm"  href="/projects/edit_project/{{project1.id}}"> EDIT LISTING</a>
+                    {% else %}
+                    <a class="btn btn-success m-2 bshadow-sm" href="/projects/join_project/{{project1.id}}">Join Team</a>
+                    <a class="btn btn-warning m-2 bshadow-sm" href="/projects/favorites/{{project1.id}}">Save Project</a>
+                    {% endif %}
+                </div>
+            
+            </div>
+
+            
+            
+            
+            
+            
+            
+            
 
         </div>
     </div>
@@ -62,6 +124,7 @@
         Created by gitMingle Team: Jonathan, Mario & Veronica 2023
     </footer>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

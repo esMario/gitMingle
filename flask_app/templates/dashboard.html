@@ -108,23 +108,23 @@
 
             <p class="h4 text-center">Users Looking to Mingle</p>
             <div class="all_users_container w-100 h-100 bg-primary d-flex justify-content-start p-5 gap-2">
-                <!-- Creates a varible to store all users titles for later. -->
+                {# <!-- Creates a varible to store all users titles for later. --> #}
                 {% set position_titles = [] %}
-                <!-- Starts a loop for all users / get all users. -->
+                {# <!-- Starts a loop for all users / get all users. --> #}
                 {% for user in all_users %}
-                <!-- If users postion title is not in new variables list append it to provide all current titles from all users. -->
+                {# <!-- If users postion title is not in new variables list append it to provide all current titles from all users. --> #}
                     {% if user.position_title not in position_titles %}
                         {% set append_titles = position_titles.append(user.position_title) %}
                     {% endif %}
                 {% endfor %}
-                <!-- Loop through new variable list per title provided . -->
+                {# <!-- Loop through new variable list per title provided . --> #}
                 {% for title in position_titles %}
                 <table class="w-25 table table-striped">
                     <thead>
                         <th>{{ title }}</th>
                     </thead>
                     <tbody>
-                        <!-- If users position title matches the list of titles created add user.id and full name to the table row with its data . -->
+                        {# <!-- If users position title matches the list of titles created add user.id and full name to the table row with its data . --> #}
                         {% for user in all_users %}
                         {% if user.position_title == title %}
                             <tr>
