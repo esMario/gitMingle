@@ -19,10 +19,14 @@
         <script type="text/javascript" src="{{ url_for('static', filename='script.js') }}" defer></script>
     </head>
 
+
+
 <body class="page_container">
+
+<!-- *************************** TOP BAR NAVIGATION ***************************** -->
     <header class="w-100 d-flex justify-content-between align-items-center">
         <div>
-            <a class="" href="#"><img class="icon p-1 ms-2" src="{{url_for('static', filename='/images/logo.png')}}" alt="gitMingle Logo"></a>
+            <a class="" href="/"><img class="icon p-1 ms-2" src="{{url_for('static', filename='/images/logo.png')}}" alt="gitMingle Logo"></a>
         </div>
 
         <div class="d-flex flex-row justify-content-center align-items-center menu" style="width: 40%!important;">
@@ -33,6 +37,8 @@
         </div>
     </header>
 
+
+<!-- *********************** PROJECT NAME DESCRIPTION IMAGE ************************** -->
     <div class="main_container w-100 d-flex align-items-center justify-content-center px-3 pt-3">
 
         <div class="show_project_container w-100 h-100 d-flex flex-column justify-content-start align-items-start">
@@ -48,6 +54,7 @@
                 </div>
             </div>
 
+<!-- ********************* PROJECT LANGUAGES USED LISTED BY /W LINKS ****************** -->
             <div class="d-flex flex-column justify-content-between  text-center border rounded p-3 mt-2 w-100">
                 <div class="d-flex flex-row justify-content-between">
                     <h2> Project Languages Used: </h2>
@@ -57,8 +64,13 @@
                         <div>
                             {% set languages = project1.languages_used.split(' ') %}
                             {% for language in languages %}
-                            <i class="devicon-{{ language|lower }}-plain fs-1 btn btn-outline-dark p-2 m-1"></i>
-                            {# <!-- <p class="label">{{ language }}</p> --> #}
+                                {% if language|lower in ["express"] %}
+                                <i class="devicon-{{ language|lower }}-original fs-1 btn btn-outline-dark p-2 m-1"></i>
+                                {# <!-- <p class="label">{{ language }}</p> --> #}
+                                {% else %}
+                                <i class="devicon-{{ language|lower }}-plain fs-1 btn btn-outline-dark p-2 m-1"></i>
+                                {# <!-- <p class="label">{{ language }}</p> --> #}
+                                {% endif %}
                             {% endfor %}
                         </div>
 
@@ -83,6 +95,7 @@
                     </div>
             </div>
 
+<!-- ****************** HELP NEEDED/POSTIONS FILLED JOIN/SAVED or DELETE/EDIT  ******************* -->
             <div class="d-flex flex-row justify-content-between border rounded p-3 mt-2 w-100" >
                 <div class="d-flex flex-column col-4">
                     <h2>Need Help With:</h2>
@@ -106,17 +119,7 @@
                     <a class="btn btn-warning m-2 bshadow-sm" href="/projects/favorites/{{project1.id}}">Save Project</a>
                     {% endif %}
                 </div>
-            
             </div>
-
-            
-            
-            
-            
-            
-            
-            
-
         </div>
     </div>
 
