@@ -84,7 +84,7 @@
                         </div>
                         {% if project.user_id == session['logged_in_id'] %}
                         <div class="d-flex justify-content-around flex-row border border-top-none p-2 pt-0 w-100 border-top-0" >
-                            <a href="/projects/edit_project/{{project.id}}"> EDIT</a>  |  <a href="/projects/delete_project/{{project.id}}">DELETE </a>
+                            <a href="/projects/edit_project/{{project.id}}"> EDIT</a>  |  <a href="/projects/delete_project/{{project.id}}" onclick="return confirm('Are you sure you want to delete?')">DELETE </a>
                         </div>
                         {% endif %}
                         <div class="w-100 card-footer d-flex flex-column">

@@ -52,7 +52,7 @@
                     </div>
                     {% if one_project.user_id == session['logged_in_id'] %}
                     <div class="d-flex justify-content-around flex-row border border-top-none p-2 pt-0 w-100 border-top-0" >
-                        <a href="/projects/edit_project/{{one_project.id}}"> EDIT</a>  |  <a href="/projects/delete_project/{{one_project.id}}">DELETE </a>
+                        <a href="/projects/edit_project/{{one_project.id}}"> EDIT</a>  |  <a href="/projects/delete_project/{{one_project.id}}" onclick="return confirm('Are you sure you want to delete?')">DELETE </a>
                     </div>
                     {% endif %}
                     <div class="w-100 card-footer d-flex flex-column">
@@ -116,7 +116,7 @@
                         </div>
                         <div class="d-flex flex-row justify-content-evenly align-items-center border rounded-bottom border-top-0 text-center p-2 pb-3" style="width: 240px">
                             <a href="/projects/edit_project/{{one_project.id}}" class="bshadow-sm btn btn-success me-2 w-100">Edit</a>
-                            <a href="/projects/delete_project/{{one_project.id}}" class="bshadow-sm btn btn-danger me-2 w-100">Delete</a>
+                            <a href="/projects/delete_project/{{one_project.id}}" class="bshadow-sm btn btn-danger me-2 w-100" onclick="return confirm('Are you sure you want to delete project?')">Delete</a>
                         </div>
                 </div>
                 {% endfor %} 
@@ -254,7 +254,7 @@
                                 </h4>
                             </div>
                             <div class="d-flex flex-row justify-content-evenly align-items-center border rounded-bottom border-top-0 text-center p-2 pb-3" style="width: 240px">
-                                <a href="/projects/delete_member/{{team.project_id}}" class="bshadow-sm btn btn-danger me-2">Leave Project</a>
+                                <a href="/projects/delete_member/{{team.project_id}}" class="bshadow-sm btn btn-danger me-2" onclick="return confirm('Are you sure you want to leave project?')">Leave Project</a>
                             </div>
                     </div>
                     {% endfor %} 
@@ -280,7 +280,7 @@
                             </div>
                             <div class="d-flex flex-row justify-content-evenly align-items-center border rounded-bottom border-top-0 text-center p-2 pb-3" style="width: 240px">
                                 <a href="/projects/join_project/{{project1.project_id}}" class="bshadow-sm btn btn-success me-2" >Join Now</a>
-                                <a href="/projects/delete_saved/{{project1.project_id}}" class="bshadow-sm btn btn-danger me-2">Delete</a>
+                                <a href="/projects/delete_saved/{{project1.project_id}}" class="bshadow-sm btn btn-danger me-2" >Delete</a>
                             </div>
                     </div>
                     {% endfor %} 
