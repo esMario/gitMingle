@@ -1,15 +1,12 @@
-
 from flask_app import app
-
 from flask import Flask, render_template, redirect, request, session, flash
-
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models import user, project
 
 
 
-# ******** ROOT ROUTE *********
+# ******** DASHBOARD ROUTE *********
 @app.route("/users/dashboard/<int:id>")
 def user_page(id):
     if "logged_in_id" not in session:
