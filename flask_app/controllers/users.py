@@ -15,7 +15,7 @@ def home_page():
 def user_entry():
     return render_template("login.html")
 
-# ******** ADD/CREATE NEW user *********
+# ******** ADD/CREATE NEW USER *********
 @app.route("/users/create_user", methods=["POST"])
 def create_user():
     
@@ -24,27 +24,36 @@ def create_user():
     
     hashed_pw=bcrypt.generate_password_hash(request.form["password"])
 
+    language_list=request.form.getlist("user_languages")
+    language_string=", ".join(language_list)
+    print("*****************************************************************************************")
+    print(language_list)
+    print(language_string)
+    print("*****************************************************************************************")
+
     data={
         "f_name":request.form["f_name"],
         "l_name":request.form["l_name"],
         "email":request.form["email"],
-        "position_title":request.form["position_title"],        
         "github_url":request.form["github_url"],
+        "position_title":request.form["position_title"],        
+        "user_languages":language_string,
         "password":hashed_pw,
     }
 
     one_user_id=user.User.create_new_user(data)
+    
     session["logged_in_id"]=one_user_id
     flash("Registration successful. You are now logged in!", "user_registration_success")
     return redirect(f"/users/dashboard/{session['logged_in_id']}")   
 
-# ******** user login *********
+# ******** USER LOGIN *********
 @app.route("/users/user_login", methods=["POST"])
 def user_login():
     one_user= user.User.validate_login(request.form)
 
     if not one_user:
-        return redirect("/login")
+        return redirect("/")
     
     session["logged_in_id"]=one_user.id
     flash("Login successful!", "user_login_success")
@@ -83,8 +92,24 @@ def update_user_info():
     if not user.User.validate_user_update(request.form):
         return redirect(f"/users/profile/{session['logged_in_id']}")
     
+    language_list=request.form.getlist("user_languages")
+    language_string=" ".join(language_list)
+    print("*****************************************************************************************")
+    print(language_list)
+    print(language_string)
+    print("*****************************************************************************************")
 
-    user.User.update_user(request.form)
+    new_data={
+        "id":request.form["id"],
+        "f_name":request.form["f_name"],
+        "l_name":request.form["l_name"],
+        "email":request.form["email"],
+        "github_url":request.form["github_url"],
+        "position_title":request.form["position_title"],        
+        "user_languages":language_string,
+    }
+
+    user.User.update_user(new_data)
     flash("User update SUCCESSFUL!", "user_update_success")
     return redirect(f"/users/profile/{session['logged_in_id']}")
 
