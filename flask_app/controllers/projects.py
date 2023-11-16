@@ -55,6 +55,11 @@ def create_project():
     data2={
         "id": session["logged_in_id"]
     }
+    
+    #File upload
+    file = request.files['file']
+    if file.filename != '':
+        file.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'],request.form['project_name']))
     flash("Project added!", "project_add_success")
     return redirect(f"/users/dashboard/{session['logged_in_id']}")
     # return redirect(f"/projects/show_project/{one_project_id}")
