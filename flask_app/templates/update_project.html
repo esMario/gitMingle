@@ -38,7 +38,7 @@
     <div class="main_container w-100 px-5 py-3">
         <div class="w-100 d-flex ">
             <div class="w-50 d-flex align-items-start">
-                <p class="h2">Start A New Project:</p>
+                <p class="h2">Edit A Project:</p>
             </div>
         </div>
         <div class="d-flex flex-row w-100 justify-content-between">
@@ -50,115 +50,185 @@
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-<!-- *************************** LEFT HALF PROJECT FORM **************************** -->                
-                <form class="w-100 h-100 d-flex flex-column justify-content-between" action="/projects/list_project" method="post">
+<!-- *************************** LEFT HALF PROJECT FORM **************************** -->
+                
+                <form class="w-100 h-100 d-flex flex-column justify-content-between" action="/projects/update_project" method="post" enctype="multipart/form-data">
                     <div class="w-100 d-flex flex-column">
                         <div class="w-100 pb-1 align-items-center">
                             <label class="form-label" for="project_name">Project Name: </label><br>
-                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="project_name">
+                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="project_name" value="{{project_to_update.project_name}}">
                         </div>
+                        
                         <div class="w-100 pb-1 align-items-center">
                             <label class="form-label" for="short_description">Brief Description (100 characters or less): </label>
-                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="short_description"></textarea>
+                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="short_description">{{project_to_update.short_description}}</textarea>
                         </div>
                         <div class="row">
                             <div class="col pb-1">
                                 <label class="form-label" for="current_team">Current Team Size: </label>
-                                <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="current_team">
+                                <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="current_team" value="{{project_to_update.current_team}}">
                             </div>
                             <div class="col pb-1"">
                                 <label class="form-label" for="max_team">Max Team Size: </label>
-                                <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="max_team">
+                                <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="number" style="font-size: .8rem; font-weight: bold;" name="max_team" value="{{project_to_update.max_team}}">
                             </div>
                         </div>
                         <div class="w-100 pb-1 align-items-center">
                             <label class="form-label" for="github_link">GitHub Repo Link: </label>
-                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="github_link">
+                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="github_link" value="{{project_to_update.github_link}}">
                         </div>
     
                         <div class="w-100 pb-1 align-items-center">
                             <label class="form-label" for="long_description">Full Description: </label>
-                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="long_description"></textarea>
+                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" style="font-size: .8rem; font-weight: bold;" name="long_description">{{project_to_update.long_description}}</textarea>
                         </div>
     
                         <div class="w-100 pb-1 align-items-center">
                             <label class="form-label" for="help_needed">Help Needed: </label>
-                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="help_needed"></textarea>
+                            <textarea class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="text" style="font-size: .8rem; font-weight: bold;" name="help_needed">{{project_to_update.help_needed}}</textarea>
                         </div>
-    
-                        <input type="hidden" name="user_id" value="{{session['logged_in_id']}}">
+                        <input type="hidden" name="id" value="{{project_to_update.id}}">
                         
                     </div>
             </div>
-<!-- *************************** RIGHT HALF PROJECT FORM **************************** --> 
-                    <div class="d-flex align-items-start flex-row w-100">
-                        <div class="d-flex flex-column h-50 w-100 align-items-center" > 
-                                <p class="h5" for="languages_used">Languages Used: </p>
-                                <div class="overflow-auto w-75 h-75">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+            
+<!-- *************************** RIGHT HALF LANG USED FORM CHECK BOXES **************************** --> 
+                    <div class="d-flex align-items-start flex-column w-100">
+                        <div class="d-flex flex-row w-100 h-50 mb-4">
+                            <div class="d-flex flex-column h-100 w-100 align-items-center" > 
+                                    <p class="h5" for="languages_used">Languages Used: </p>
+                                    <div class="overflow-auto w-75 h-100">
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="javascript">
+                                            <label class="form-check-label" for="languages_used">JavaScript</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="python">
+                                            <label class="form-check-label" for="languages_used">Python</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="java">
+                                            <label class="form-check-label" for="languages_used">Java</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="csharp">
+                                            <label class="form-check-label" for="languages_used">C#</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="cplusplus">
+                                            <label class="form-check-label" for="languages_used">C++</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="TypeScript">
+                                            <label class="form-check-label" for="languages_used">TypeScript</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="PHP">
+                                            <label class="form-check-label" for="languages_used">PHP</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Swift">
+                                            <label class="form-check-label" for="languages_used">Swift</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Go">
+                                            <label class="form-check-label" for="languages_used">Go (Golang)</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Ruby">
+                                            <label class="form-check-label" for="languages_used">Ruby</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Kotlin">
+                                            <label class="form-check-label" for="languages_used">Kotlin</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="objectivec">
+                                            <label class="form-check-label" for="languages_used">Objective-C</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="R">
+                                            <label class="form-check-label" for="languages_used">R</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="perl">
+                                            <label class="form-check-label" for="languages_used">Perl</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Scala">
+                                            <label class="form-check-label" for="languages_used">Scala</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Rust">
+                                            <label class="form-check-label" for="languages_used">Rust</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="MATLAB">
+                                            <label class="form-check-label" for="languages_used">MATLAB</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="Groovy">
+                                            <label class="form-check-label" for="languages_used">Groovy</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="HTML5">
+                                            <label class="form-check-label" for="languages_used">HTML/CSS</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <input class="form-check-input" type="checkbox" name="languages_used" value="mysql">
+                                            <label class="form-check-label" for="languages_used">MySQL</label>
+                                        </div>
+                                        
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                            </div>
+<!-- ************************** CSS FRAMEWORKS FORM CHECK BOXES  ************************ --> 
+                            <div class="d-flex flex-column h-100 w-100 align-items-center" > 
+                                <p class="h5" for="languages_used">Full Stack's Used: </p>
+                                <div class="overflow-auto h-75 w-75">
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="mongodb express angularjs nodejs">
+                                        <label class="form-check-label" for="languages_used">MEAN</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="mongodb express react nodejs">
+                                        <label class="form-check-label" for="languages_used">MERN</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="linux apache mysql php">
+                                        <label class="form-check-label" for="languages_used">LAMP </label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="python flask sqlite html5 css3 javascript">
+                                        <label class="form-check-label" for="languages_used">Flask</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="python django sqlite html5 css3 javascript">
+                                        <label class="form-check-label" for="languages_used">Foundation</label>
                                     </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="angularjs">
-                                        <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="csharp dot-net mysql html5 css3 javascript">
+                                        <label class="form-check-label" for="languages_used">.NET</label>
                                     </div>
-                                </div>
-                        </div>
-                        <div class="d-flex flex-column h-50 w-100 align-items-center" > 
-                            <p class="h5" for="languages_used">Languages Used: </p>
-                            <div class="overflow-auto h-75 w-75">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="angularjs">
-                                    <label class="form-check-label" for="languages_used">AngularJS</label>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="ruby postgresql html5 css3 javascript">
+                                        <label class="form-check-label" for="languages_used">Ruby on Rails</label>
+                                    </div>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="java spring mysql">
+                                        <label class="form-check-label" for="languages_used">Java Spring</label>
+                                    </div>
+                                    <div class="text-center">
+                                        <input class="form-check-input" type="checkbox" name="languages_used" value="mongodb express vuejs nodejs">
+                                        <label class="form-check-label" for="languages_used">MVC</label>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="w-100 d-flex px-4 align-items-center">
+                            <label class="w-25 form-label" for="languages_used">Upload File: </label>
+                            <input class="form-control bg-light-subtle text-primary pt-1 px-1 border-1 shadow-sm" type="file" accept="image/*" style="font-size: .8rem; font-weight: bold;" name="file">
+                        </div>
                     </div>
-                </div>
         </div>
 <!-- *************************** SUBMIT PROJECT FORM **************************** -->         
                     <div class="d-flex justify-content-end">

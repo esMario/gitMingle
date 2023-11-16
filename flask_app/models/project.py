@@ -6,7 +6,7 @@ import re
 # URL_REGEX=re.compile(r'^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$')
 
 class Project:
-    db="gitMingle"
+    db="gitMingle_vam"
 
     def __init__(self, data):
         self.id=data["id"]
@@ -23,6 +23,8 @@ class Project:
         self.updated_at=data["updated_at"]
         # NOT PART OF DB
         self.project_creator=None
+        self.project_team_members=[]
+
 
 
 # ******** ADD/CREATE NEW project*********
@@ -54,6 +56,7 @@ class Project:
             one_project.project_creator=user.User(parse_user_data(record))
             all_projects.append(one_project)
         return all_projects
+    
 # --GET ALL FTs END-----------------------------------
 
 # ******** FOR SEARCH - GET ALL PROJECTS BY LANGUAGE USED *********
@@ -144,6 +147,27 @@ class Project:
         """
         return connectToMySQL(cls.db).query_db(query, data)
     
+# ******** GET PROJECTS WITH TEAM MEMBERS*********** 
+    @classmethod
+    def get_project_team_members(cls,data):
+        query="""
+            SELECT * FROM team_members 
+            JOIN users ON team_members.user_id=users.id 
+            WHERE team_members.project_id=%(id)s;
+            """
+        results = connectToMySQL(cls.db).query_db(query, data )
+
+        project_team=[]
+
+        if results:
+            for row in results:
+                member=user.User(parse_user_data(row))
+                project_team.append(member)
+            return project_team
+        return project_team
+        
+    
+
 # ******** DELETE TEAM MEMBER / LEAVE TEAM *********
     @classmethod
     def delete_member(cls, id):
@@ -163,7 +187,7 @@ class Project:
         is_valid = True
 
         if len(data["project_name"]) <1:
-            flash("Business Name cannot be left empty", "projects")
+            flash("Project Name cannot be left empty", "projects")
             is_valid = False
 
         if len(data["short_description"]) <1:
@@ -195,7 +219,7 @@ class Project:
         #     is_valid = False
         
         if len(data["github_link"]) == 0:
-            flash(" ! GitHub repo URL cannot be left empty.", "projects")
+            flash("GitHub repo URL cannot be left empty.", "projects")
             is_valid = False
 
         # if not URL_REGEX.match(data["github_link"]): 
@@ -206,13 +230,13 @@ class Project:
             flash("Description cannot be left empty.", "projects")
             is_valid = False
 
-        if len(data["languages_used"]) <1:
-            flash("You must choose at least one language", "projects")
+        if 'languages_used' not in data:
+            flash("You must choose at least one language or stack", "projects")
             is_valid = False
 
-        if len(data["help_needed"]) <1:
-            flash("You can't leave this empty.", "projects")
-            is_valid = False
+        # if len(data["help_needed"]) <1:
+        #     flash("You can't leave this empty.", "projects")
+        #     is_valid = False
 
         return is_valid
     
@@ -229,19 +253,16 @@ class Project:
             flash("Description field cannot be left empty. Original info retained.", "project_update")
             is_valid = False
 
-
-        
         if len(data["github_link"]) == 0:
             flash(" ! GitHub repo URL cannot be left empty.", "project_update")
             is_valid = False
-
 
         if len(data["long_description"]) <1:
             flash("Description cannot be left empty.", "project_update")
             is_valid = False
 
-        if len(data["languages_used"]) <1:
-            flash("You must choose at least one language", "project_update")
+        if 'languages_used' not in data:
+            flash("You must choose at least one language or stack", "project_update")
             is_valid = False
 
         if len(data["help_needed"]) <1:
@@ -257,10 +278,55 @@ def parse_user_data(record):
                 "f_name":record["f_name"],
                 "l_name":record["l_name"],
                 "email":record["email"],
-                "position_title":record["position_title"],
-                "github_url":record["github_url"],
+                "github_url":record["github_url"],"position_title":record["position_title"],
+                "user_languages":record["user_languages"],
                 "password":record["password"],
                 "created_at":record["users.created_at"],
                 "updated_at":record["users.updated_at"],
             }
     return user_data
+
+# def parse_team_data(record):
+#     if "team_members.id" in record:
+#         team_members_data={
+#                 "id":record["team_members.id"],
+#                 "project_id":record["team_members.project_id"],
+#                 "user_id":record["team_members.user_id"],
+#                 "member_type":record["team_members.member_type"],
+#                 "status":record["team_members.status"],
+#                 "created_at":record["team_members.created_at"],
+#                 "updated_at":record["team_members.updated_at"],
+#             }
+#     return team_members_data
+
+# ******** GET ALL PROJECTS WITH TEAM MEMBERS *********
+# @classmethod
+# def get_all_projects_with_team(cls):
+#     query = """
+#         SELECT * FROM projects
+#         JOIN users ON projects.user_id=users.id;
+#         """
+#     projects_results = connectToMySQL(cls.db).query_db(query)
+
+#     all_projects = []
+
+#     for record in projects_results:
+#         one_project=cls(record)
+#         one_project.project_creator=user.User(parse_user_data(record))
+
+#         query="""
+#                 SELECT * FROM projects
+#                 JOIN team_members ON projects.id=team_members.project_id
+#                 JOIN users ON team_members.user_id=users.id
+#                 WHERE team_members.user_id=%(id)s; 
+#                 """
+#         data={
+#             "id":id
+#         }
+#         team_results = connectToMySQL(cls.db).query_db(query, data)
+#         for row in team_results:
+#             member=user.User(parse_user_data(row))
+#             one_project.project_team_members.append(member)
+#             return one_project
+#         all_projects.append(one_project)
+#     return all_projects
