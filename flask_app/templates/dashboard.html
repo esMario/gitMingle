@@ -74,10 +74,15 @@
 
             <p class="h2">All Current Projects:</p>
             <div class="container d-flex flex-wrap justify-content-center ">
-
                 {% for project in all_projects %}
                 <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                    <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+<!-- *********************** IMAGE INTAKE FROM GET ALL PROJECTS ************************** -->
+                    {%  set url="flask_app/static/images/"+project.project_name %}
+                    {% if os.path.exists(url) %}
+                        <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important;background-color: white; " src="../../static/images/{{project.project_name}}" alt="Please upload your project photo">
+                    {% else %}
+                        <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                    {% endif %}
                         <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
                             <p class="h4">{{project.project_name}}</p>
                             <p>{{project.short_description}}</p>
@@ -94,7 +99,7 @@
                         </div>
                         <div class="d-flex flex-row justify-content-evenly align-items-center border rounded-bottom border-top-0 text-center p-2 pb-3" style="width: 240px">
                             <a href="/projects/show_project/{{project.id}}" class="bshadow-sm btn btn-warning me-2">Show More</a>
-                            <a href="#" class="bshadow-sm btn btn-success">Join Now</a>
+                            <a href="/projects/join_project/{{project.id}}" class="bshadow-sm btn btn-success">Join Now</a>
                         </div>
                 </div>
                 {% endfor %} 

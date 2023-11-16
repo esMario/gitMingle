@@ -4,6 +4,15 @@ from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 from flask_app.models import user, project
 
+# ************* FILE UPLOAD *************
+import os
+from os.path import join, dirname, realpath
+UPLOAD_FOLDER = "static/images"
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.context_processor
+def handle_context():
+    return dict(os=os)
 
 
 # ******** DASHBOARD ROUTE *********
@@ -70,8 +79,33 @@ def project_update():
     data={
         "id": request.form['id']
     }
-    project.Project.update_project(request.form)
+    
+    if request.method == "POST":
+        new_languages_list=request.form.getlist("languages_used")
+        new_languages_string=" ".join(new_languages_list)
+        print("*****************************************************************************************")
+        print(new_languages_list)
+        print(new_languages_string)
+        print("*****************************************************************************************")
 
+        new_project_data={
+            "project_name":request.form["project_name"],
+            "short_description":request.form["short_description"],
+            "max_team":request.form["max_team"],
+            "current_team":request.form["current_team"],
+            "github_link":request.form["github_link"],
+            "long_description":request.form["long_description"],
+            "languages_used":new_languages_string,
+            "help_needed":request.form["help_needed"],
+            "id": request.form['id']
+        }
+
+    project.Project.update_project(new_project_data)
+    
+    #File upload
+    file = request.files['file']
+    if file.filename != '':
+        file.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'],request.form['project_name']))
     flash("Project successfully updated!", "project_update_success")
     return redirect(f"/users/dashboard/{session['logged_in_id']}")
 

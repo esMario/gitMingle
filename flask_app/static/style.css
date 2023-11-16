@@ -300,4 +300,15 @@ form, form label, form input {
 
  /* CAROUSEL ON HUB */
 
- 
+
+
+
+
+/*   FILE UPLOAD */
+
+.file_upload_img {
+    max-width:400px;
+    max-height:400px;
+    width: auto;
+    height: auto;
+}

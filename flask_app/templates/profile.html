@@ -45,7 +45,13 @@
         <div class="main_container d-flex flex-wrap justify-content-center border-0 rounded">
             {% for one_project in one_user.listed_projects %}
             <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+<!-- *********************** IMAGE INTAKE FROM GET ONE PROJECT ************************** -->
+                        {%  set url="flask_app/static/images/"+one_project.project_name %}
+                        {% if os.path.exists(url) %}
+                            <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important;background-color: white; " src="../../static/images/{{one_project.project_name}}" alt="Please upload your project photo">
+                        {% else %}
+                            <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                        {% endif %}
                     <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
                         <p class="h4">{{one_project.project_name}}</p>
                         <p>{{one_project.short_description}}</p>
@@ -76,7 +82,13 @@
         <div class="main_container d-flex flex-wrap justify-content-center border-0 rounded" >
             {% for team in joined_projects %}
             <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+<!-- *********************** IMAGE INTAKE FROM GET JOINED TEAM PROJECT ************************** -->
+                        {%  set url="flask_app/static/images/"+team.project_name %}
+                        {% if os.path.exists(url) %}
+                            <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important;background-color: white; " src="../../static/images/{{team.project_name}}" alt="Please upload your project photo">
+                        {% else %}
+                            <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                        {% endif %}
                     <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
                         <p class="h4">{{team.project_name}}</p>
                         <p>{{team.short_description}}</p>
@@ -104,7 +116,13 @@
             <div class="main_container d-flex flex-wrap justify-content-center border-0 rounded">
                 {% for one_project in one_user.listed_projects %}
                 <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                    <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+<!-- *********************** IMAGE INTAKE FROM GET ONE PROJECT ************************** -->
+                            {%  set url="flask_app/static/images/"+one_project.project_name %}
+                            {% if os.path.exists(url) %}
+                                <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important;background-color: white; " src="../../static/images/{{one_project.project_name}}" alt="Please upload your project photo">
+                            {% else %}
+                                <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                            {% endif %}
                         <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
                             <a class="h4 text-primary" href="/projects/show_project/{{one_project.id}}">{{one_project.project_name}}</a>
                             <p>{{one_project.short_description}}</p>
@@ -243,7 +261,13 @@
                 <div class="main_container d-flex flex-wrap justify-content-center border-0 rounded" >
                     {% for team in joined_projects %}
                     <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                        <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+<!-- *********************** IMAGE INTAKE FROM GET TEAM PROJECTS ************************** -->
+                            {%  set url="flask_app/static/images/"+team.project_name %}
+                            {% if os.path.exists(url) %}
+                                <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important;background-color: white; " src="../../static/images/{{team.project_name}}" alt="Please upload your project photo">
+                            {% else %}
+                                <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                            {% endif %}
                             <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
                                 <a class="h4 text-primary" href="/projects/show_project/{{team.project_id}}">{{team.project_name}}</a>
                                 <p>{{team.short_description}}</p>
@@ -268,7 +292,13 @@
                 <div class="main_container d-flex flex-wrap justify-content-center border-0 rounded" >
                     {% for project1 in saved_projects %}
                     <div class="d-flex flex-column justify-content-start align-items-center m-3" style="width: 240px; max-height: 412px;" >
-                        <img class="img z-1 position-realtive bshadow-sm  " style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+<!-- *********************** IMAGE INTAKE FROM GET ONE PROJECT ************************** -->
+                            {%  set url="flask_app/static/images/"+project1.project_name %}
+                            {% if os.path.exists(url) %}
+                                <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important;background-color: white; " src="../../static/images/{{project1.project_name}}" alt="Please upload your project photo">
+                            {% else %}
+                                <img class="icon z-1 position-realtive bshadow-sm" style="transform: translate(0%,35%)!important; " src="https://placehold.co/100x100" alt="Card image cap" >
+                            {% endif %}
                             <div class="text-center p-2 pt-5 pb-0 border rounded-top border-bottom-0 flex-wrap" style="width: 240px;height: 412px; ">
                                 <a class="h4 text-primary" href="/projects/show_project/{{project1.id}}">{{project1.project_name}}</a>
                                 <p>{{project1.short_description}}</p>

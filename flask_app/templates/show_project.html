@@ -38,17 +38,22 @@
     </header>
 
 
-<!-- *********************** PROJECT NAME DESCRIPTION IMAGE ************************** -->
+<!-- *********************** PROJECT NAME IMG DESCRIPTION IMAGE ************************** -->
     <div class="main_container w-100 d-flex align-items-center justify-content-center px-3 pt-3">
 
         <div class="show_project_container w-100 h-100 d-flex flex-column justify-content-start align-items-start">
-            <div class="d-flex flex-row border rounded p-3 ">
-                <img src="https://placehold.co/400x400" alt="project images">
+            <div class="d-flex flex-row  border rounded p-3 ">
+<!-- *********************** IMAGE INTAKE FROM GET ONE PROJECT ************************** -->
+            {%  set url="flask_app/static/images/"+project1.project_name %}
+            {% if os.path.exists(url) %}
+                <img class="file_upload_img" src="../../static/images/{{project1.project_name}}" alt="Please upload your project photo">
+            {% else %}
+                <img class="file_upload_img"src="https://placehold.co/400x400" alt="Card image cap" >
+            {% endif %}
                 <div class="d-flex flex-column justify-content-start align-items-center text-center ps-2">
-                    <h1 class="">{{project1.project_name}}</h1>
-                    <h2 class="border-dark border-bottom pb-2"> Brief Description: {{project1.short_description}} </h2>
+                    <h1 class="border-dark border-bottom pb-2" style="font-size: 4rem; font-weight: 600;">{{project1.project_name}}</h1>
                     <div class="overflow-auto h-75 mw-25 ms-2">
-                        <h2> Full Description: {{project1.long_description}} </h2>
+                        <h2>{{project1.long_description}} </h2>
                         <br>
                     </div>
                 </div>
@@ -61,11 +66,14 @@
                     <p class="mb-2 copy_indicate">Listed by: <a href="/users/profile/{{project1.user_id}}">{{project1.project_creator.f_name}}</a> on {{project1.created_at}}</p>
                 </div>
                     <div class="d-flex flex-row align-items-center justify-content-between">
-                        <div>
+                        <div class="">
                             {% set languages = project1.languages_used.split(' ') %}
                             {% for language in languages %}
                                 {% if language|lower in ["express"] %}
                                 <i class="devicon-{{ language|lower }}-original fs-1 btn btn-outline-dark p-2 m-1"></i>
+                                {# <!-- <p class="label">{{ language }}</p> --> #}
+                                {% elif language|lower in ["less","csharp"] %}
+                                <i class="devicon-{{ language|lower }}-plain-wordmark fs-1 btn btn-outline-dark p-2 m-1"></i>
                                 {# <!-- <p class="label">{{ language }}</p> --> #}
                                 {% else %}
                                 <i class="devicon-{{ language|lower }}-plain fs-1 btn btn-outline-dark p-2 m-1"></i>

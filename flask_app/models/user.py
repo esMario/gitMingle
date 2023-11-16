@@ -11,16 +11,16 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 URL_REGEX=re.compile(r'^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$')
 
 class User:
-    db="gitMingle"
+    db="gitMingle_vam"
 
     def __init__(self, data):
         self.id=data["id"]
-
         self.f_name=data["f_name"]
         self.l_name=data["l_name"]
         self.email=data["email"]
-        self.position_title=data["position_title"]
         self.github_url=data["github_url"]
+        self.position_title=data["position_title"]
+        self.user_languages=data["user_languages"]
         self.password=data["password"]
         self.created_at=data["created_at"]
         self.updated_at=data["updated_at"]
@@ -36,8 +36,8 @@ class User:
     def create_new_user(cls, data):
         query = """
             INSERT INTO users
-            (f_name, l_name, email, position_title, github_url, password)
-            VALUES(%(f_name)s, %(l_name)s, %(email)s, %(position_title)s, %(github_url)s, %(password)s);
+            (f_name, l_name, email, github_url, position_title, user_languages, password)
+            VALUES(%(f_name)s, %(l_name)s, %(email)s, %(github_url)s, %(position_title)s, %(user_languages)s, %(password)s);
         """
         results= connectToMySQL(cls.db).query_db(query, data)
         return results
@@ -135,7 +135,7 @@ class User:
     def update_user(cls, data):
         query = """
             UPDATE users
-            SET f_name=%(f_name)s, l_name=%(l_name)s, email=%(email)s, position_title=%(position_title)s, github_url=%(github_url)s, updated_at=NOW() 
+            SET f_name=%(f_name)s, l_name=%(l_name)s, email=%(email)s, github_url=%(github_url)s, position_title=%(position_title)s, user_languages=%(user_languages)s, updated_at=NOW() 
             WHERE id = %(id)s;
         """
         return connectToMySQL(cls.db).query_db(query,data)
