@@ -20,7 +20,7 @@ def user_entry():
 def create_user():
     
     if not user.User.validate_user_registration(request.form):
-        return redirect("/")
+        return redirect("/login")
     
     hashed_pw=bcrypt.generate_password_hash(request.form["password"])
 
