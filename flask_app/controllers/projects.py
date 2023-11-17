@@ -157,7 +157,7 @@ def project_page(id):
     }
 
 
-    return render_template("show_project.html", project1=project.Project.get_one_project(data), user1=user.User.get_user_info(data2))
+    return render_template("show_project.html", project1=project.Project.get_one_project(data), user1=user.User.get_user_info(data2), project_team=project.Project.get_project_team_members(data))
 
 
 # ******** DELETE project *********
