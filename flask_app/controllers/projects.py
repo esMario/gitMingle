@@ -129,6 +129,7 @@ def project_update():
             "long_description":request.form["long_description"],
             "languages_used":new_languages_string,
             "help_needed":request.form["help_needed"],
+            # NOT SURE WE NEED THIS BELOW
             "id": request.form['id']
         }
 
