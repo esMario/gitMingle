@@ -43,26 +43,53 @@ def new_project():
 # ******** ADD new project - POST & redirect *********
 @app.route("/projects/list_project", methods=["POST"])
 def create_project():
+    
     if "logged_in_id" not in session:
         flash("You must be logged in to view the requested page.", "login_required")        
         return redirect("/users")
     
     if not project.Project.validate_project(request.form):
         return redirect("/projects/new_project")
-
-    one_project_id=project.Project.create_new_project(request.form)
+    
+    
+    if request.method == "POST":
+        languages_list=request.form.getlist("languages_used")
+        languages_string=", ".join(languages_list)
+        
+        project_data={
+            "user_id":request.form["user_id"],
+            "project_name":request.form["project_name"],
+            "short_description":request.form["short_description"],
+            "max_team":request.form["max_team"],
+            "current_team":request.form["current_team"],
+            "github_link":request.form["github_link"],
+            "long_description":request.form["long_description"],
+            "languages_used":languages_string,
+            "help_needed":request.form["help_needed"],
+        }
+        # return project_data
+    one_project_id=project.Project.create_new_project(project_data)
 
     data2={
         "id": session["logged_in_id"]
     }
-    
+
     #File upload
     file = request.files['file']
     if file.filename != '':
         file.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'],request.form['project_name']))
     flash("Project added!", "project_add_success")
+
+
+#!!!! initiate team creation with creator as first member
+    data3={
+        "project_id":one_project_id,
+        "user_id":session['logged_in_id']
+    }
+    project.Project.join_team(data3)
+#!!!!!!!!!!!!!!!!!!!!
+
     return redirect(f"/users/dashboard/{session['logged_in_id']}")
-    # return redirect(f"/projects/show_project/{one_project_id}")
 
 # ******** UPDATE project - render *********
 @app.route("/projects/edit_project/<int:id>")
@@ -87,7 +114,7 @@ def project_update():
     
     if request.method == "POST":
         new_languages_list=request.form.getlist("languages_used")
-        new_languages_string=" ".join(new_languages_list)
+        new_languages_string=", ".join(new_languages_list)
         print("*****************************************************************************************")
         print(new_languages_list)
         print(new_languages_string)
